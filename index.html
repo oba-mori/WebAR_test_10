@@ -1,10 +1,12 @@
 <!-- 
-	WebAR_test_9
+	WebAR_test_10
 
 	ソースコードを参考にGLTF形式の3Dモデルを取り込み表示
 	hittest
 	平面を検知して、画面をタップした時に、サークルの位置に3Dモデルが表示される
 	タップしたら表示され、前の物は消える → 移動しているように見せる
+
+	複数種類の3Dモデルを表示(ボタンで切換)
 
 	ソースコード
 	https://github.com/mrdoob/three.js/blob/master/examples/jsm/webxr/ARButton.js
@@ -23,6 +25,12 @@
 		<link type="text/css" rel="stylesheet" href="main.css">
 	</head>
 	<body>
+		<!-- ボタン -->
+		<button id="toggleButton">ボタン</button>
+
+
+
+
 
 		<div id="info">
 			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> ar - hit test<br/>(Chrome Android 81+)
@@ -70,8 +78,6 @@
 
 
 
-
-
 			let container;
 			let camera, scene, renderer;
 			let controller;
@@ -113,51 +119,22 @@
 
 				const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 0.2, 32 ).translate( 0, 0.1, 0 );
 
-				// 不要
-				// コード内で3Dモデルを作成
-				function onSelect() {
+				// // 不要
+				// // コード内で3Dモデルを作成
+				// function onSelect() {
 
-					if ( reticle.visible ) {
+				// 	if ( reticle.visible ) {
 
-						// 必要ないのでコメントアウト
-						const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
-						const mesh = new THREE.Mesh( geometry, material );
-						reticle.matrix.decompose( mesh.position, mesh.quaternion, mesh.scale );
-						mesh.scale.y = Math.random() * 2 + 1;
-						scene.add( mesh );
+				// 		// 必要ないのでコメントアウト
+				// 		const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
+				// 		const mesh = new THREE.Mesh( geometry, material );
+				// 		reticle.matrix.decompose( mesh.position, mesh.quaternion, mesh.scale );
+				// 		mesh.scale.y = Math.random() * 2 + 1;
+				// 		scene.add( mesh );
 
-					}
+				// 	}
 
-				}
-
-
-				// // 追加
-				// // GLTFファイルを使用
-				// function loadModel() {
-				// 	const loader = new GLTFLoader();
-
-				// 	loader.load(
-				// 		'cube_small.glb',
-				// 		function (gltf) {
-				// 			const model = gltf.scene;
-				// 			const position = new THREE.Vector3();
-				// 			const quaternion = new THREE.Quaternion();
-				// 			const scale = new THREE.Vector3();
-				// 			reticle.matrix.decompose(position, quaternion, scale);
-				// 			model.position.copy(position);
-				// 			model.quaternion.copy(quaternion);
-				// 			model.scale.copy(scale);
-				// 			scene.add(model);
-				// 		},
-				// 		function (xhr) {
-				// 			console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
-				// 		},
-				// 		function (error) {
-				// 			console.error('An error happened', error);
-				// 		}
-				// 	);
 				// }
-
 
 
 				// 下で使用するため
@@ -191,7 +168,7 @@
 							console.error('An error happened', error);
 						}
 					);
-			}
+				}
 
 
 
@@ -201,6 +178,7 @@
 				// controller.addEventListener( 'select', onSelect );
 				// コード内で作成した3Dモデルを表示
 				controller.addEventListener( 'select', loadModel);
+
 				
 				scene.add( controller );
 
@@ -295,6 +273,32 @@
 				renderer.render( scene, camera );
 
 			}
+
+
+
+
+
+
+
+
+
+
+			// ボタンによる制御
+			// 3Dモデル表示関数無効
+			const toggleButton = document.getElementById('toggleButton');
+			let isEventListenerActive = false;
+
+			toggleButton.addEventListener('click', () => {
+				if (isEventListenerActive) {
+					controller.removeEventListener('select', loadModel);
+					isEventListenerActive = false;
+					toggleButton.textContent = 'ボタン (無効)';
+				} else {
+					controller.addEventListener('select', loadModel);
+					isEventListenerActive = true;
+					toggleButton.textContent = 'ボタン (有効)';
+				}
+			});
 
 		</script>
 	</body>
