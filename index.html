@@ -102,6 +102,28 @@
 			function init() {
 
 				container = document.createElement( 'div' );
+
+
+
+
+
+				// ボタン要素を作成
+				const button = document.createElement('button');
+				button.textContent = 'ボタン(有効)';
+
+				// Three.jsのレンダラーのDOM要素を取得
+				// const rendererElement = renderer.domElement;
+
+				// ボタン要素を別の場所に配置するdiv要素を作成
+				// container = document.createElement('div');
+				container.appendChild(button); // ボタン要素をdiv要素に追加
+				// document.body.appendChild(rendererElement); // Three.jsのレンダラーのDOM要素をbody要素に追加
+
+
+
+
+
+				// div要素をbody要素に追加
 				document.body.appendChild( container );
 
 				scene = new THREE.Scene();
@@ -128,22 +150,6 @@
 				// button.style.left = '10px';
 				// // -------------------------------------------------------------------
 	
-
-
-
-
-				// ボタン要素を作成
-				const button = document.createElement('button');
-				button.textContent = 'ボタン(有効)';
-
-				// Three.jsのレンダラーのDOM要素を取得
-				const rendererElement = renderer.domElement;
-
-				// ボタン要素を別の場所に配置するdiv要素を作成
-				const container = document.createElement('div');
-				container.appendChild(button); // ボタン要素をdiv要素に追加
-				document.body.appendChild(rendererElement); // Three.jsのレンダラーのDOM要素をbody要素に追加
-				document.body.appendChild(container); // div要素をbody要素に追加
 
 
 
