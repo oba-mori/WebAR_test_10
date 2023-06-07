@@ -26,7 +26,7 @@
 	</head>
 	<body>
 		<!-- ボタン -->
-		<button id="toggleButton" style="position: fixed; top: 10px; left: 10px;">ボタン (有効)</button>
+		<button id="toggleButton" style="position: fixed; top: 10px; left: 10px; z-index: 999;">ボタン (有効)</button>
 
 
 
@@ -35,6 +35,13 @@
 		<div id="info">
 			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> ar - hit test<br/>(Chrome Android 81+)
 		</div>
+		<!--  -->
+		<style>
+			#ar-content {
+					/* 他のCSSプロパティ */
+					z-index: 1; /* ボタンの上に表示するための値 */
+			}
+	</style>
 
 		<!-- Import maps polyfill -->
 		<!-- Remove this when import maps will be widely supported -->
@@ -48,6 +55,7 @@
 
 
 		<!--  importmapと一緒に使用し、three.module.jsをimportするため -->
+		<!-- Githubのthree.module.jsファイルが置いてあるURL -->
 		<script type="importmap">
 			{
 				"imports": {
