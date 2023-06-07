@@ -32,6 +32,12 @@
 		<div id="info">
 			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> ar - hit test<br/>(Chrome Android 81+)
 		</div>
+		<style>
+			#info {
+				display:none;
+			}
+		</style>
+
 		<!--  -->
 		<style>
 			#ar-content {
@@ -69,10 +75,6 @@
 			// 上記と同じ内容
 			// import * as THREE from "https://unpkg.com/three/build/three.module.js";
 			
-
-			
-
-
       // import * as THREE from './three.module.js';  // ファイルパスを正確に指定する
 
 			// GLTFファイル使用用
@@ -95,6 +97,8 @@
 			init();
 			animate();
 
+
+			// 3D用
 			function init() {
 
 				container = document.createElement( 'div' );
@@ -122,6 +126,8 @@
 				button.style.position = 'absolute';
 				button.style.top = '10px';
 				button.style.left = '10px';
+				// -------------------------------------------------------------------
+				
 
 				// Three.jsのレンダラーのHTML要素を取得
 				const rendererElement = renderer.domElement;
