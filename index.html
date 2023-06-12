@@ -7,6 +7,10 @@
 	タップしたら表示され、前の物は消える → 移動しているように見せる
 
 	複数種類の3Dモデルを表示(ボタンで切換)
+	ボタンがARカメラの映像で隠れてしまう、映像の上に重ねたい
+
+
+	main.cssを読み込まない
 
 	ソースコード
 	https://github.com/mrdoob/three.js/blob/master/examples/jsm/webxr/ARButton.js
@@ -121,27 +125,22 @@
 
 				renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setSize( window.innerWidth / 2, window.innerHeight );
 				renderer.xr.enabled = true;
 				container.appendChild( renderer.domElement );
 
 
 
-// ボタンの作成と追加
-const button = document.createElement('button');
-button.id = 'toggleButton';
-button.style.position = 'absolute';
-button.style.top = '50%';
-button.style.left = '50%';
-button.style.transform = 'translate(-50%, -50%)';
-button.style.zIndex = '9999';
-button.textContent = 'ボタン (有効)';
-container.appendChild(button);
-
-
-
-
-
+				// ボタンの作成と追加
+				const button = document.createElement('button');
+				button.id = 'toggleButton';
+				button.style.position = 'absolute';
+				button.style.top = '50%';
+				button.style.left = '50%';
+				button.style.transform = 'translate(-50%, -50%)';
+				button.style.zIndex = '9999';
+				button.textContent = 'ボタン (有効)';
+				container.appendChild(button);
 
 
 				// ARカメラ起動ボタン
@@ -260,7 +259,7 @@ container.appendChild(button);
 
 			function onWindowResize() {
 
-				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.aspect = (window.innerWidth / 2) / window.innerHeight;
 				camera.updateProjectionMatrix();
 
 				renderer.setSize( window.innerWidth, window.innerHeight );
@@ -315,7 +314,7 @@ container.appendChild(button);
 
 							reticle.visible = true;
 							reticle.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
-
+							reticle.matrix.elements[12] /= 2; // X座標を半分にする
 						} else {
 
 							reticle.visible = false;
