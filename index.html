@@ -103,10 +103,9 @@
 				container = document.createElement( 'div' );
 				// 追加
 				container.id = 'container';
-				container.style.position = 'relative';
+				container.style.position = 'absolute';
 
-				// 背景色を追加する
-				container.style.backgroundColor = 'lightblue';
+				
 
 				document.body.appendChild( container );
 
@@ -122,10 +121,7 @@
 
 				renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
-				// カメラのサイズ
-				renderer.setSize( window.innerWidth/2, window.innerHeight/2 );
-				// renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
-
+				renderer.setSize( window.innerWidth, window.innerHeight );
 				renderer.xr.enabled = true;
 				container.appendChild( renderer.domElement );
 
