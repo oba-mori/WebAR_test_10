@@ -122,7 +122,10 @@
 
 				renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
+				// カメラのサイズ
+				// renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
+				
 				renderer.xr.enabled = true;
 				container.appendChild( renderer.domElement );
 
