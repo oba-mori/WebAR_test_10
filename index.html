@@ -103,6 +103,8 @@
 				container = document.createElement( 'div' );
 				// 追加
 				container.id = 'container';
+				container.style.position = 'absolute';
+
 				document.body.appendChild( container );
 
 				scene = new THREE.Scene();
@@ -127,8 +129,8 @@
 const button = document.createElement('button');
 button.id = 'toggleButton';
 button.style.position = 'absolute';
-button.style.top = '10%';
-button.style.left = '2%';
+button.style.top = '50%';
+button.style.left = '50%';
 button.style.transform = 'translate(-50%, -50%)';
 button.style.zIndex = '9999';
 button.textContent = 'ボタン (有効)';
