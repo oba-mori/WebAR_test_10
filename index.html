@@ -11,7 +11,19 @@
 	ソースコード
 	https://github.com/mrdoob/three.js/blob/master/examples/jsm/webxr/ARButton.js
 	
+
+
+	・複数の3Dモデルを表示する場合
+	3Dファイルを用意します。
+	loadModel()関数を複製し、新しい関数を作成します。例えば、loadModel2()という関数を作成します。
+	複製した関数内のloader.load()メソッドの第1引数に、新しい3Dファイルのパスを指定します。
+	複製した関数内のscene.add()メソッドの引数に、新しいモデルを追加します。
+	新しい関数を呼び出すためのイベントリスナーを設定します。例えば、controller.addEventListener('select', loadModel2);というようにします。
+
+
+	
 -->
+
 
 
 
@@ -32,7 +44,8 @@
 			<canvas id="rendererCanvas"></canvas>
 			
 			<!-- ボタン -->
-			<button id="toggleButton" style="position: absolute; top: 10px; left: 10px; z-index: 9999;">ボタン (有効)</button>
+			<!-- <button id="toggleButton" style="position: absolute; top: 10px; left: 10px; z-index: 9999;">ボタン (有効)</button> -->
+			<button id="toggleButton" style="position: absolute; top: 10%; left: 2%; transform: translate(-50%, -50%); z-index: 9999;">ボタン (有効)</button>
 		</div>
 		
 		<!-- ボタン -->
@@ -102,6 +115,8 @@
 			function init() {
 
 				container = document.createElement( 'div' );
+				// 追加
+				container.id = 'container';
 				document.body.appendChild( container );
 
 				scene = new THREE.Scene();
