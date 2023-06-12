@@ -10,7 +10,7 @@
 	ボタンがARカメラの映像で隠れてしまう、映像の上に重ねたい
 
 
-	main.cssを読み込まない
+	main.cssコメントアウト
 
 	ソースコード
 	https://github.com/mrdoob/three.js/blob/master/examples/jsm/webxr/ARButton.js
@@ -126,9 +126,12 @@
 				renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth / 2, window.innerHeight );
+				// 背景色を追加する
+				renderer.style.backgroundColor = 'lightblue';
 				renderer.xr.enabled = true;
 				container.appendChild( renderer.domElement );
 
+				
 
 
 				// ボタンの作成と追加
