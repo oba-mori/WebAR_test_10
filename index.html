@@ -38,20 +38,6 @@
 	</head>
 	<body>
 
-		<!-- 描画領域要素(THREE.WebGLRendererのインスタンスが生成した <canvas> 要素) と ボタンを纏める要素 -->
-		<div id="container" style="position: relative;">
-			<!-- 描画領域 -->
-			<canvas id="rendererCanvas"></canvas>
-			
-			<!-- ボタン -->
-			<!-- <button id="toggleButton" style="position: absolute; top: 10px; left: 10px; z-index: 9999;">ボタン (有効)</button> -->
-			<button id="toggleButton" style="position: absolute; top: 10%; left: 2%; transform: translate(-50%, -50%); z-index: 9999;">ボタン (有効)</button>
-		</div>
-		
-		<!-- ボタン -->
-
-
-
 		<!-- 不要 -->
 		<!-- <div id="info">
 			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> ar - hit test<br/>(Chrome Android 81+)
@@ -135,8 +121,26 @@
 				renderer.xr.enabled = true;
 				container.appendChild( renderer.domElement );
 
-				//
 
+
+// ボタンの作成と追加
+const button = document.createElement('button');
+button.id = 'toggleButton';
+button.style.position = 'absolute';
+button.style.top = '10%';
+button.style.left = '2%';
+button.style.transform = 'translate(-50%, -50%)';
+button.style.zIndex = '9999';
+button.textContent = 'ボタン (有効)';
+container.appendChild(button);
+
+
+
+
+
+
+
+				// ARカメラ起動ボタン
 				document.body.appendChild( ARButton.createButton( renderer, { requiredFeatures: [ 'hit-test' ] } ) );
 
 				//
@@ -160,6 +164,10 @@
 
 				// }
 
+
+
+
+				
 
 				// 下で使用するため
 				let currentModel = null; // currentModel 変数を定義
