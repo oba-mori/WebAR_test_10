@@ -39,8 +39,38 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 		<!-- <link type="text/css" rel="stylesheet" href="main.css"> -->
+
+
+		<style>
+			#container {
+				position: absolute;
+				top: 0;
+				right: 0;
+				width: 50%;
+				height: 100%;
+				overflow: hidden;
+			}
+			</style>
+			
+
+
 	</head>
 	<body>
+
+		<!-- ARカメラの映像を表示するためのコンテナ要素 -->
+		<!-- 画面の左半分に制限 -->
+		<div id="arVideoContainer"></div>
+
+		<!-- 3Dコンテンツを表示するコンテナ要素 -->
+		<div id="container"></div>
+
+
+
+
+
+
+
+
 
 		<!-- 不要 -->
 		<!-- <div id="info">
@@ -87,6 +117,26 @@
 
 			// import { ARButton } from 'three/addons/webxr/ARButton.js';
 			import { ARButton } from './ARButton.js';
+
+
+			// 追加
+			// ARカメラの映像を表示するためのコンテナ要素
+			// 画面の左半分に制限
+			const arVideoContainer = document.createElement('div');
+arVideoContainer.style.position = 'absolute';
+arVideoContainer.style.top = '0';
+arVideoContainer.style.left = '0';
+arVideoContainer.style.width = '50%';
+arVideoContainer.style.height = '100%';
+arVideoContainer.style.overflow = 'hidden';
+document.body.appendChild(arVideoContainer);
+
+
+
+
+
+
+
 
 
 
@@ -265,7 +315,7 @@
 				camera.aspect = (window.innerWidth / 2) / window.innerHeight;
 				camera.updateProjectionMatrix();
 
-				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setSize( window.innerWidth / 2, window.innerHeight );
 
 			}
 
