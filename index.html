@@ -41,16 +41,7 @@
 		<!-- <link type="text/css" rel="stylesheet" href="main.css"> -->
 
 
-		<style>
-			#container {
-				position: absolute;
-				top: 0;
-				right: 0;
-				width: 50%;
-				height: 100%;
-				overflow: hidden;
-			}
-			</style>
+
 			
 
 
@@ -66,9 +57,36 @@
 
 
 
+			<div id="leftViewport"></div>
+			<div id="rightViewport"></div>
+			<!-- 以降のコード -->
+
+		
+		<style>
+			#container {
+				position: absolute;
+				top: 0;
+				right: 0;
+				width: 50%;
+				height: 100%;
+				overflow: hidden;
+			}
+			</style>
 
 
+<style>
+#leftViewport,
+#rightViewport {
+  width: 50%;
+  height: 100vh;
+  float: left;
+}
 
+#rightViewport {
+  clear: both;
+}
+
+</style>
 
 
 
@@ -184,6 +202,32 @@ document.body.appendChild(arVideoContainer);
 
 
 
+// 別のコード...
+
+// 左側のビューポートのレンダラーを作成
+const leftRenderer = new THREE.WebGLRenderer({ antialias: true });
+leftRenderer.setSize(window.innerWidth / 2, window.innerHeight);
+document.getElementById('leftViewport').appendChild(leftRenderer.domElement);
+
+// 右側のビューポートのレンダラーを作成
+const rightRenderer = new THREE.WebGLRenderer({ antialias: true });
+rightRenderer.setSize(window.innerWidth / 2, window.innerHeight);
+document.getElementById('rightViewport').appendChild(rightRenderer.domElement);
+
+// カメラのアスペクト比を調整
+camera.aspect = (window.innerWidth / 2) / window.innerHeight;
+camera.updateProjectionMatrix();
+
+// ARカメラ起動ボタン
+document.body.appendChild(ARButton.createButton(leftRenderer, { requiredFeatures: ['hit-test'] }));
+
+
+
+
+
+
+
+
 				// ボタンの作成と追加
 				const button = document.createElement('button');
 				button.id = 'toggleButton';
@@ -197,7 +241,7 @@ document.body.appendChild(arVideoContainer);
 
 
 				// ARカメラ起動ボタン
-				document.body.appendChild( ARButton.createButton( renderer, { requiredFeatures: [ 'hit-test' ] } ) );
+				// document.body.appendChild( ARButton.createButton( renderer, { requiredFeatures: [ 'hit-test' ] } ) );
 
 				//
 
