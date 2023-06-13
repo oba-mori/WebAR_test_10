@@ -30,6 +30,20 @@
 
 
 
+<!-- 
+	WebAR_test_9
+
+	ソースコードを参考にGLTF形式の3Dモデルを取り込み表示
+	hittest
+	平面を検知して、画面をタップした時に、サークルの位置に3Dモデルが表示される
+	タップしたら表示され、前の物は消える → 移動しているように見せる
+
+	ソースコード
+	https://github.com/mrdoob/three.js/blob/master/examples/jsm/webxr/ARButton.js
+	
+-->
+
+
 
 
 <!DOCTYPE html>
@@ -38,62 +52,13 @@
 		<title>three.js ar - hit test</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-		<!-- <link type="text/css" rel="stylesheet" href="main.css"> -->
-
-
-
-			
-
-
+		<link type="text/css" rel="stylesheet" href="main.css">
 	</head>
 	<body>
 
-		<!-- ARカメラの映像を表示するためのコンテナ要素 -->
-		<!-- 画面の左半分に制限 -->
-		<div id="arVideoContainer"></div>
-
-		<!-- 3Dコンテンツを表示するコンテナ要素 -->
-		<div id="container"></div>
-
-
-
-			<div id="leftViewport"></div>
-			<div id="rightViewport"></div>
-			<!-- 以降のコード -->
-
-		
-		<style>
-			#container {
-				position: absolute;
-				top: 0;
-				right: 0;
-				width: 50%;
-				height: 100%;
-				overflow: hidden;
-			}
-			</style>
-
-
-<style>
-#leftViewport,
-#rightViewport {
-  width: 50%;
-  height: 100vh;
-  float: left;
-}
-
-#rightViewport {
-  clear: both;
-}
-
-</style>
-
-
-
-		<!-- 不要 -->
-		<!-- <div id="info">
+		<div id="info">
 			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> ar - hit test<br/>(Chrome Android 81+)
-		</div> -->
+		</div>
 
 		<!-- Import maps polyfill -->
 		<!-- Remove this when import maps will be widely supported -->
@@ -107,7 +72,6 @@
 
 
 		<!--  importmapと一緒に使用し、three.module.jsをimportするため -->
-		<!-- Githubのthree.module.jsファイルが置いてあるURL -->
 		<script type="importmap">
 			{
 				"imports": {
@@ -137,24 +101,6 @@
 			import { ARButton } from './ARButton.js';
 
 
-			// 追加
-			// ARカメラの映像を表示するためのコンテナ要素
-			// 画面の左半分に制限
-			const arVideoContainer = document.createElement('div');
-arVideoContainer.style.position = 'absolute';
-arVideoContainer.style.top = '0';
-arVideoContainer.style.left = '0';
-arVideoContainer.style.width = '50%';
-arVideoContainer.style.height = '100%';
-arVideoContainer.style.overflow = 'hidden';
-document.body.appendChild(arVideoContainer);
-
-
-
-
-
-
-
 
 
 
@@ -173,12 +119,6 @@ document.body.appendChild(arVideoContainer);
 			function init() {
 
 				container = document.createElement( 'div' );
-				// 追加
-				container.id = 'container';
-				container.style.position = 'absolute';
-
-				
-
 				document.body.appendChild( container );
 
 				scene = new THREE.Scene();
@@ -193,33 +133,9 @@ document.body.appendChild(arVideoContainer);
 
 				renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth / 2, window.innerHeight );
-				// 背景色を追加する
-				renderer.setClearColor('rgb(220, 220, 220)'); // RGB値
+				renderer.setSize( window.innerWidth, window.innerHeight );
 				renderer.xr.enabled = true;
 				container.appendChild( renderer.domElement );
-
-
-
-
-// 別のコード...
-
-// 左側のビューポートのレンダラーを作成
-const leftRenderer = new THREE.WebGLRenderer({ antialias: true });
-leftRenderer.setSize(window.innerWidth / 2, window.innerHeight);
-document.getElementById('leftViewport').appendChild(leftRenderer.domElement);
-
-// 右側のビューポートのレンダラーを作成
-const rightRenderer = new THREE.WebGLRenderer({ antialias: true });
-rightRenderer.setSize(window.innerWidth / 2, window.innerHeight);
-document.getElementById('rightViewport').appendChild(rightRenderer.domElement);
-
-// カメラのアスペクト比を調整
-camera.aspect = (window.innerWidth / 2) / window.innerHeight;
-camera.updateProjectionMatrix();
-
-// ARカメラ起動ボタン
-document.body.appendChild(ARButton.createButton(leftRenderer, { requiredFeatures: ['hit-test'] }));
 
 
 
@@ -240,34 +156,65 @@ document.body.appendChild(ARButton.createButton(leftRenderer, { requiredFeatures
 				container.appendChild(button);
 
 
+
+
+
+
+
+
 				// ARカメラ起動ボタン
-				// document.body.appendChild( ARButton.createButton( renderer, { requiredFeatures: [ 'hit-test' ] } ) );
+				document.body.appendChild( ARButton.createButton( renderer, { requiredFeatures: [ 'hit-test' ] } ) );
 
 				//
 
 				const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 0.2, 32 ).translate( 0, 0.1, 0 );
 
-				// // 不要
-				// // コード内で3Dモデルを作成
-				// function onSelect() {
+				// 不要
+				// コード内で3Dモデルを作成
+				function onSelect() {
 
-				// 	if ( reticle.visible ) {
+					if ( reticle.visible ) {
 
-				// 		// 必要ないのでコメントアウト
-				// 		const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
-				// 		const mesh = new THREE.Mesh( geometry, material );
-				// 		reticle.matrix.decompose( mesh.position, mesh.quaternion, mesh.scale );
-				// 		mesh.scale.y = Math.random() * 2 + 1;
-				// 		scene.add( mesh );
+						// 必要ないのでコメントアウト
+						const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
+						const mesh = new THREE.Mesh( geometry, material );
+						reticle.matrix.decompose( mesh.position, mesh.quaternion, mesh.scale );
+						mesh.scale.y = Math.random() * 2 + 1;
+						scene.add( mesh );
 
-				// 	}
+					}
 
+				}
+
+
+				// // 追加
+				// // GLTFファイルを使用
+				// function loadModel() {
+				// 	const loader = new GLTFLoader();
+
+				// 	loader.load(
+				// 		'cube_small.glb',
+				// 		function (gltf) {
+				// 			const model = gltf.scene;
+				// 			const position = new THREE.Vector3();
+				// 			const quaternion = new THREE.Quaternion();
+				// 			const scale = new THREE.Vector3();
+				// 			reticle.matrix.decompose(position, quaternion, scale);
+				// 			model.position.copy(position);
+				// 			model.quaternion.copy(quaternion);
+				// 			model.scale.copy(scale);
+				// 			scene.add(model);
+				// 		},
+				// 		function (xhr) {
+				// 			console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
+				// 		},
+				// 		function (error) {
+				// 			console.error('An error happened', error);
+				// 		}
+				// 	);
 				// }
 
 
-
-
-				
 
 				// 下で使用するため
 				let currentModel = null; // currentModel 変数を定義
@@ -300,7 +247,7 @@ document.body.appendChild(ARButton.createButton(leftRenderer, { requiredFeatures
 							console.error('An error happened', error);
 						}
 					);
-				}
+			}
 
 
 
@@ -310,7 +257,7 @@ document.body.appendChild(ARButton.createButton(leftRenderer, { requiredFeatures
 				// controller.addEventListener( 'select', onSelect );
 				// コード内で作成した3Dモデルを表示
 				controller.addEventListener( 'select', loadModel);
-
+				
 
 
 				// ボタンによる制御
@@ -331,7 +278,7 @@ document.body.appendChild(ARButton.createButton(leftRenderer, { requiredFeatures
 				});
 
 
-				
+
 				scene.add( controller );
 
 				reticle = new THREE.Mesh(
@@ -343,7 +290,6 @@ document.body.appendChild(ARButton.createButton(leftRenderer, { requiredFeatures
 				scene.add( reticle );
 
 				//
-
 				window.addEventListener( 'resize', onWindowResize );
 
 			}
@@ -356,10 +302,10 @@ document.body.appendChild(ARButton.createButton(leftRenderer, { requiredFeatures
 
 			function onWindowResize() {
 
-				camera.aspect = (window.innerWidth / 2) / window.innerHeight;
+				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
 
-				renderer.setSize( window.innerWidth / 2, window.innerHeight );
+				renderer.setSize( window.innerWidth, window.innerHeight );
 
 			}
 
@@ -411,7 +357,7 @@ document.body.appendChild(ARButton.createButton(leftRenderer, { requiredFeatures
 
 							reticle.visible = true;
 							reticle.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
-							reticle.matrix.elements[12] /= 2; // X座標を半分にする
+
 						} else {
 
 							reticle.visible = false;
