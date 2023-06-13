@@ -263,7 +263,7 @@
 				// ボタンによる制御
 				// 3Dモデル表示関数無効
 				const toggleButton = document.getElementById('toggleButton');
-				let isEventListenerActive = false;
+				let isEventListenerActive = true;	 	// 初期値をtrueに設定
 
 				toggleButton.addEventListener('click', () => {
 					if (isEventListenerActive) {
